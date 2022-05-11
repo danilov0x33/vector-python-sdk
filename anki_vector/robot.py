@@ -37,6 +37,7 @@ from .connection import (Connection,
 from .exceptions import (VectorNotReadyException,
                          VectorPropertyValueNotReadyException,
                          VectorUnreliableEventStreamException)
+from .messaging.settings_pb2 import JdocType
 from .viewer import (ViewerComponent, Viewer3DComponent)
 from .messaging import protocol
 from .mdns import VectorMdns
@@ -126,8 +127,7 @@ class Robot:
             util.setup_basic_logging()
         self.logger = util.get_class_logger(__name__, self)
         self._force_async = False
-        config = config if config is not None else {}
-        config = {**util.read_configuration(serial, name, self.logger), **config}
+        config = config if config is not None else {**util.read_configuration(serial, name, self.logger)}
 
         if name is not None:
             vector_mdns = VectorMdns.find_vector(name)
