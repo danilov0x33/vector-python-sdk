@@ -53,11 +53,11 @@ def get_requirements():
     return reqs
 
 setup(
-    name='ikkez_vector',
+    name='danilov0x33_vector',
     version=VERSION,
     description="The Vector SDK is a connected vision- and character-based robotics platform for everyone.",
     long_description=__doc__,
-    url='https://github.com/ikkez/vector-python-sdk',
+    url='https://github.com/danilov0x33/vector-python-sdk',
     author='Anki, Inc',
     author_email='developer@anki.com',
     license='Apache License, Version 2.0',
@@ -70,6 +70,7 @@ setup(
         'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: 3.7',
         'Programming Language :: Python :: 3.8',
+        'Programming Language :: Python :: 3.10',
     ],
     zip_safe=True,
     keywords='anki vector robot robotics sdk ai vision'.split(),

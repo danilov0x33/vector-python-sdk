@@ -25,17 +25,17 @@ To install his SDK fork run:
 
 ```
 pip uninstall anki_vector
-pip install ikkez_vector
+pip install danilov0x33_vector
 ```
 
 Upgrade with 
 ```
-pip install ikkez_vector --upgrade
+pip install danilov0x33_vector --upgrade
 ```
 
 ### Changelog
 
-To see all changes and updates being made to the SDK, please go to [Releases](https://github.com/ikkez/vector-python-sdk/releases)
+To see all changes and updates being made to the SDK, please go to [Releases](https://github.com/danilov0x33/vector-python-sdk/releases)
 
 ## Privacy Policy and Terms and Conditions
 
