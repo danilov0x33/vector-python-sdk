@@ -194,18 +194,20 @@ class Connection:
     :param name: Vector's name in the format of "Vector-XXXX".
     :param host: The IP address and port of Vector in the format "XX.XX.XX.XX:443".
     :param cert_file: The location of the certificate file on disk.
+    :param cert_as_str: The certificate as string.
     :param guid: Your robot's unique secret key.
     :param behavior_control_level: pass one of :class:`ControlPriorityLevel` priority levels if the connection
                                    requires behavior control, or None to decline control.
     """
 
-    def __init__(self, name: str, host: str, cert_file: str, guid: str, behavior_control_level: ControlPriorityLevel = ControlPriorityLevel.DEFAULT_PRIORITY):
+    def __init__(self, name: str, host: str, cert_file: str, cert_as_str: str, guid: str, behavior_control_level: ControlPriorityLevel = ControlPriorityLevel.DEFAULT_PRIORITY):
         if cert_file is None:
             raise VectorConfigurationException("Must provide a cert file to authenticate to Vector.")
         self._loop: asyncio.BaseEventLoop = None
         self.name = name
         self.host = host
         self.cert_file = cert_file
+        self.cert_as_str = cert_as_str
         self._interface = None
         self._channel = None
         self._has_control = False
@@ -489,9 +491,13 @@ class Connection:
                 self._control_events = _ControlEventManager(self._loop)
             else:
                 self._control_events = _ControlEventManager(self._loop, priority=self._behavior_control_level)
+
             trusted_certs = None
-            with open(self.cert_file, 'rb') as cert:
-                trusted_certs = cert.read()
+            if self.cert_as_str:
+                trusted_certs = self.cert_as_str.encode("utf-8")
+            else:
+                with open(self.cert_file, 'rb') as cert:
+                    trusted_certs = cert.read()
 
             # Pin the robot certificate for opening the channel
             channel_credentials = aiogrpc.ssl_channel_credentials(root_certificates=trusted_certs)

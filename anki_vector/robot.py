@@ -138,19 +138,20 @@ class Robot:
         self._name = config["name"]
         self._ip = ip if ip is not None else config["ip"]
         self._cert_file = config["cert"]
+        self._cert_as_str = config.get("cert_as_str") if config.get("cert_as_str") else None
         self._guid = config["guid"]
 
         self._port = "443"
         if 'port' in config:
             self._port = config["port"]
 
-        if self._name is None or self._ip is None or self._cert_file is None or self._guid is None:
+        if self._name is None or self._ip is None or (self._cert_file is None and self._cert_as_str is None) or self._guid is None:
             raise ValueError("The Robot object requires a serial and for Vector to be logged in (using the app then running the anki_vector.configure executable submodule).\n"
                              "You may also provide the values necessary for connection through the config parameter. ex: "
                              '{"name":"Vector-XXXX", "ip":"XX.XX.XX.XX", "cert":"/path/to/cert_file", "guid":"<secret_key>"}')
 
         #: :class:`anki_vector.connection.Connection`: The active connection to the robot.
-        self._conn = Connection(self._name, ':'.join([self._ip, self._port]), self._cert_file, self._guid, behavior_control_level=behavior_control_level)
+        self._conn = Connection(self._name, ':'.join([self._ip, self._port]), self._cert_file, self._cert_as_str, self._guid, behavior_control_level=behavior_control_level)
         self._events = events.EventHandler(self)
 
         # placeholders for components before they exist
